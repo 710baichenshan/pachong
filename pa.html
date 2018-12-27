@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body style="">
+		
+		<div id="">
+			<select id="duoxuan" style="margin-left: 500px; height: 30px;">
+				<option value="">请选择日期</option>
+			</select>
+			<div id="chart" style="width:1170px;height:500px;"></div>
+		</div>
+		<div id="">
+			<select id="duoxuan2" style="margin-left: 500px; height: 30px;">
+				<option value="">请选择日期</option>
+			</select>
+			<div id="chart2" style="width:1170px;height:500px;"></div>
+		</div>
+		
+	</body>
+	
+	<style type="text/css">
+		
+	</style>
+</html>
+<script src="./js/jquery-3.2.1.min.js"></script>
+<script src="./js/echarts.js"></script>
+<script>
+	var datas=[];
+	var xdata=[];
+	var local="http://127.0.0.1:8081";
+	var myChart = echarts.init(document.getElementById('chart'));
+	var myChart2 = echarts.init(document.getElementById('chart2'));
+	
+	var options = {
+		
+	    title: {
+	        text: 'DNF金币日波动',
+	        subtext: '不是虚构，真实数据'
+	    },
+	    tooltip: {
+	        trigger: 'axis',
+	        axisPointer: {
+	            type: 'cross'
+	        }
+	    },
+	    toolbox: {
+	        show: true,
+	        feature: {
+	            saveAsImage: {}
+	        }
+	    },
+	    xAxis:  {
+	        type: 'category',
+	        boundaryGap: false,
+	        data: xdata,
+			axisLabel: {
+				margin:8, //
+				padding: 0,
+			},
+			minInterval: 0,
+	    },
+	    yAxis: {
+	        type: 'value',
+	        axisLabel: {
+	            formatter: '{value} W'
+	        },
+	        axisPointer: {
+	            snap: true
+	        }
+	    },
+	    visualMap: {
+	        show: false,
+	        dimension: 0,
+	        pieces: [{
+	            lte: 6,
+	            color: 'green'
+	        }, {
+	            gt: 6,
+	            lte: 8,
+	            color: 'red'
+	        }, {
+	            gt: 8,
+	            lte: 14,
+	            color: 'green'
+	        }, {
+	            gt: 14,
+	            lte: 17,
+	            color: 'red'
+	        }, {
+	            gt: 17,
+	            color: 'green'
+	        }]
+	    },
+	    series: [
+	        {
+	            name:'1元比',
+	            type:'line',
+	            smooth: true,
+	            data: datas,
+	            markArea: {
+	                data: [ [{
+	                    name: '活动A',
+	                    xAxis: '07:00'
+	                }, {
+	                    xAxis: '10:00'
+	                }], [{
+	                    name: '活动B',
+	                    xAxis: '17:00'
+	                }, {
+	                    xAxis: '21:00'
+	                }] ]
+	            }
+	        }
+	    ]
+	};
+	
+	$("#duoxuan").change(function(){
+		var date=$("#duoxuan").val();
+		$.ajax({
+			url:local+"/index/getOneDayData?date="+date,
+			type: "get",
+			dataType:"json",
+			success:function(data){
+				var da= data.data;
+				if(da!=null){
+					for(var zz=0;zz<da.length;zz++){
+						datas[zz]=da[zz].number;
+						xdata[zz]=da[zz].date;
+					}
+				}
+				myChart.setOption(options);
+			},
+			error: function(err) {
+				alert(JSON.stringify(err));
+			}
+	
+		});
+	});
+
+	
+	window.onload=function (){
+		$.ajax({
+			url:local+"/index/getDateList",
+			type: "get",
+			dataType:"json",
+			success:function(data){
+				$.each(data.data, function(da){     
+					var html='<option value="'+this+'">'+this+'</option>';
+					$("#duoxuan").append(html);
+				});   
+			},
+			error: function(err) {
+				alert(JSON.stringify(err));
+			}
+	
+		});
+		
+		//var local="http://112.74.189.77:8081";
+	}
+	
+	$("#duoxuan2").change(function(){
+		var date=$("#duoxuan").val();
+		$.ajax({
+			url:local+"/index/getOneDayData?date="+date,
+			type: "get",
+			dataType:"json",
+			success:function(data){
+				var da= data.data;
+				if(da!=null){
+					for(var zz=0;zz<da.length;zz++){
+						datas[zz]=da[zz].number;
+						xdata[zz]=da[zz].date;
+					}
+				}
+				myChart.setOption(options);
+			},
+			error: function(err) {
+				alert(JSON.stringify(err));
+			}
+	
+		});
+	});
+	var options2 = {
+		
+		title: {
+			text: 'DNF金币日波动',
+			subtext: '不是虚构，真实数据'
+		},
+		tooltip: {
+			trigger: 'axis',
+			axisPointer: {
+				type: 'cross'
+			}
+		},
+		toolbox: {
+			show: true,
+			feature: {
+				saveAsImage: {}
+			}
+		},
+		xAxis:  {
+			type: 'category',
+			boundaryGap: false,
+			data: xdata,
+			axisLabel: {
+				margin:8, //
+				padding: 0,
+			},
+			minInterval: 0,
+		},
+		yAxis: {
+			type: 'value',
+			axisLabel: {
+				formatter: '{value} W'
+			},
+			axisPointer: {
+				snap: true
+			}
+		},
+		visualMap: {
+			show: false,
+			dimension: 0,
+			pieces: [{
+				lte: 6,
+				color: 'green'
+			}, {
+				gt: 6,
+				lte: 8,
+				color: 'red'
+			}, {
+				gt: 8,
+				lte: 14,
+				color: 'green'
+			}, {
+				gt: 14,
+				lte: 17,
+				color: 'red'
+			}, {
+				gt: 17,
+				color: 'green'
+			}]
+		},
+		series: [
+			{
+				name:'1元比',
+				type:'line',
+				smooth: true,
+				data: datas,
+				markArea: {
+					data: [ [{
+						name: '活动A',
+						xAxis: '07:00'
+					}, {
+						xAxis: '10:00'
+					}], [{
+						name: '活动B',
+						xAxis: '17:00'
+					}, {
+						xAxis: '21:00'
+					}] ]
+				}
+			}
+		]
+	};
+</script>
+

